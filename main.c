@@ -12,7 +12,7 @@ struct Joueur{
     char nom[10];
 };
 
-struct Joueur creeJoueur()
+struct Joueur creeJoueur()//n'importe ou on s'en fout
 {
     srand(time(NULL));
     struct Joueur joueur;
