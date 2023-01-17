@@ -21,7 +21,7 @@ struct Joueur {
 };
 
 /*Variable Globale*/
-int coorTete[4];
+int coorTete[8];
 
 /*Fonction secondaires*/
 
@@ -165,10 +165,10 @@ void Affichage(int J1, int J2, char ville[45][80]) {
   printf(" \\-/");
   gotoxy(PosX + ((BuildList[RandPos].width - 1) / 2) - 1,
          H - 1 - BuildList[RandPos].height);
-  printf("\\/ \\/");
+  printf("//_\\\\");
   gotoxy(PosX + ((BuildList[RandPos].width - 1) / 2) - 1,
          H - 0 - BuildList[RandPos].height);
-  printf("/_*_\\");
+  printf(" | | ");
 
   int RandPos2 = 7 + rand() % 2; // aléatoire entre 7 et 8
   int PosX2 = 0;
@@ -187,15 +187,19 @@ void Affichage(int J1, int J2, char ville[45][80]) {
   printf(" \\-/");
   gotoxy(PosX2 + ((BuildList[RandPos2].width - 1) / 2) - 1,
          H - 1 - BuildList[RandPos2].height);
-  printf("\\/ \\/");
+  printf("//_\\\\");
   gotoxy(PosX2 + ((BuildList[RandPos2].width - 1) / 2) - 1,
          H - 0 - BuildList[RandPos2].height);
-  printf("/_o_\\");
+  printf(" | | ");
 
   coorTete[0] = (PosX + ((BuildList[RandPos].width - 1) / 2) - 1) + 5;
   coorTete[1] = BuildList[RandPos].height + 4;
   coorTete[2] = PosX2 + ((BuildList[RandPos2].width - 1) / 2) - 2;
   coorTete[3] = BuildList[RandPos2].height + 4;
+  coorTete[4] = PosX + ((BuildList[RandPos].width - 1) / 2) - 1;
+  coorTete[5] =  H - 1 - BuildList[RandPos].height;
+  coorTete[6] = PosX2 + ((BuildList[RandPos2].width - 1) / 2) - 1;
+  coorTete[7] = H - 1 - BuildList[RandPos2].height;
 
   gotoxy(0, 10);
 }
@@ -206,10 +210,24 @@ void refresh() {
   nostdoutbuff();
   double x, y, t, v0, alpha;
   const float g = 10;
-  char jeuT = getch();
-  
-  if (jeuT == 't' && tour == 1) {
+
+  gotoxy(1, 1);
+  printf("Appuyez sur t pour tirer\n");
+  printf("Appuyez sur q pour quitter\n");
+
+
+  if (getch() == 't' && tour == 1) {
+
+  gotoxy(coorTete[6],coorTete[7]);
+  printf("//_\\\\");
     
+  gotoxy(coorTete[4],coorTete[5]);
+  printf("\\/_\\\\");
+    
+  gotoxy(1,1);
+  clrline();
+  gotoxy(1,2);
+  clrline();
   gotoxy(1, 1);
   printf("Donnez la vitesse du projectile ( entre 1.0 et 100.0 m/s ) : ");
   scanf("%lf", &v0);
@@ -223,6 +241,7 @@ void refresh() {
   scanf("%lf", &alpha);
   gotoxy(1, 1);
   clrline();
+    
   for (int j = 0; j < 80; j++)
     printf("\b");
 
@@ -257,13 +276,23 @@ void refresh() {
   }
   
   tour = 2;
-  jeuT = 'y';
+  flushstdin(); 
   gotoxy(1, 1);
   clrline();
   setstdoutbuff();
 
-  if (jeuT == 't' && tour == 2) {
+  if (getch() == 't' && tour == 2) {
+
+  gotoxy(coorTete[4],coorTete[5]);
+  printf("//_\\\\");
+
+  gotoxy(coorTete[6],coorTete[7]);
+  printf("//_\\/");
     
+  gotoxy(1,1);
+  clrline();
+  gotoxy(1,2);
+  clrline();
   gotoxy(1, 1);
   printf("Donnez la vitesse du projectile ( entre 1.0 et 100.0 m/s ) : ");
   scanf("%lf", &v0);
@@ -277,6 +306,7 @@ void refresh() {
   scanf("%lf", &alpha);
   gotoxy(1, 1);
   clrline();
+    
   for (int j = 0; j < 80; j++)
     printf("\b");
 
@@ -309,8 +339,9 @@ void refresh() {
       }
   }
   tour = 1;
-  jeuT = 'y';
+  flushstdin(); 
   gotoxy(1, 1);
   clrline();
   setstdoutbuff();
 }
+
