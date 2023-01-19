@@ -6,12 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct Joueur {
-  int x;
-  int y;
-  char nom[10];
-};
-
+/**
+ * @brief creeJoueur permet de créer une structure Joueur en récupérant son nom, en initialisant ses coordonnées x et y aléatoirement
+ * @return La structure Joueur créée
+ */
 struct Joueur creeJoueur() {
   srand(time(NULL));
   struct Joueur joueur;
@@ -23,18 +21,12 @@ struct Joueur creeJoueur() {
   return joueur;
 }
 
-struct Build {
-  int height;
-  int width;
-};
-
 struct Build BuildList[10];
-
 
 /*Programme Principale*/
 
-int main() {
-
+int main() {  
+  
   /* Creation des joueurs */
   settitle("--==== Bataille des Titans ====--");
   struct termsize taille;
@@ -63,12 +55,22 @@ int main() {
   int coorTete[8];
   AffichagePersos(BuildList, coorTete);
   /* Fin de l'affichage */
+
+  /* Deroulement de la partie */
+  char fin = '\0', aide = '\0';
+  fin = getch();
+  aide = getch();
+  int tour = 1;
+  int scoreJ1 = 0, scoreJ2 = 0;
   
-  char fin = '\0';
   while (fin != 'q') {
-    fin = getch();
-    trajectoire(&J1,&J2,coorTete);
+    
+  if (aide == 'h') {
+    instruction();
   }
+    trajectoire(&J1,&J2,coorTete,scoreJ1, scoreJ2);   
+  }
+  /* Fin de la partie */
 
   resetcolors();
   resetterminal();

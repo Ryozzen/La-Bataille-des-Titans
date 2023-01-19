@@ -7,23 +7,18 @@
 #include <stdlib.h>
 #include <time.h>
 
-/*Structure*/
-
-struct Build {
-  int height;
-  int width;
-};
-
-struct Joueur {
-  int x;
-  int y;
-  char nom[];
-};
-
 /*Variable Globale*/
 
 /*Fonction secondaires*/
 
+/**
+ * @brief GetColor retourne la couleur de la construction en fonction de la valeur d'entrée 'a'
+ * 
+ * @param BuildList Pointeur de la liste des constructions
+ * @param a  la valeur d'entrée pour determiner la couleur
+ * 
+ * @return  retourne la couleur de la construction
+ */
 int GetColor(struct Build *BuildList, int a) {
   int somme = 0, cpt = 0;
   int cpt2;
@@ -38,6 +33,11 @@ int GetColor(struct Build *BuildList, int a) {
   }
 }
 
+/**
+ * @brief delai permet de faire une pause dans l'execution du programme pour un certain nombre de secondes
+ * 
+ * @param nbsecondes Nombre de secondes pour la pause
+ */
 void delai(float nbsecondes) {
   float pause = nbsecondes * (float)(CLOCKS_PER_SEC);
   clock_t start_time = clock();
@@ -46,6 +46,12 @@ void delai(float nbsecondes) {
 
 /*Fonctions Principales*/
 
+/**
+ * @brief creeVille permet de créer une ville en utilisant un tableau 2D de caractères et une liste de structures de type Build
+ * 
+ * @param ville Tableau 2D de caractères représentant la ville
+ * @param BuildList Liste de structures de type Build représentant les bâtiments dans la ville
+ */
 void creeVille(char ville[45][80],struct Build BuildList[10]) {
   int i, j, k;
   const int NBRBuild = 10, L = 80, H = 45;
@@ -95,6 +101,14 @@ void creeVille(char ville[45][80],struct Build BuildList[10]) {
   }
 }
 
+/**
+ * @brief AffichageBat permet d'afficher une ville en utilisant un tableau 2D de caractères et une liste de structures de type Build
+ * 
+ * @param J1 
+ * @param J2 
+ * @param ville Tableau 2D de caractères représentant la ville
+ * @param BuildList Liste de structures de type Build représentant les bâtiments dans la ville
+ */
 void AffichageBat(int J1, int J2, char ville[45][80],struct Build BuildList[10]) {
   int i, j, k;
   const int NBRBuild = 10, L = 80, H = 45;
@@ -141,6 +155,12 @@ void AffichageBat(int J1, int J2, char ville[45][80],struct Build BuildList[10])
   setfontcolor(37);
 }
 
+/**
+ * @brief AffichagePersos permet d'afficher des personnages dans la ville en utilisant une liste de structures de type Build et un tableau de coordonnées.
+ * 
+ * @param BuildList Liste de structures de type Build représentant les bâtiments dans la ville
+ * @param coorTete Tableau de coordonnées représentant les positions des personnages dans la ville
+ */
 void AffichagePersos(struct Build BuildList[10],int coorTete[]) {
   int i;
   const int NBRBuild = 10, L = 80, H = 45;
@@ -200,20 +220,29 @@ void AffichagePersos(struct Build BuildList[10],int coorTete[]) {
   coorTete[7] = H - 1 - BuildList[RandPos2].height;
 }
 
+/**
+ * @brief instruction permet d'afficher les instructions de jeu à l'utilisateur
+ */
 void instruction (){
     gotoxy(1, 1);
     printf("Appuyez sur t pour tirer\n");
     printf("Appuyez sur q pour quitter\n");
 }
 
-void trajectoire(struct Joueur *J1, struct Joueur *J2, int coorTete[])  {
+/**
+ * @brief trajectoire permet de tracer la trajectoire d'un projectile dans la ville, en utilisant les informations sur les joueurs, les coordonnées des têtes de personnages et les scores de chaque joueur
+ * @param J1 Pointeur vers une structure Joueur représentant le joueur 1
+ * @param J2 Pointeur vers une structure Joueur représentant le joueur 2
+ * @param coorTete Tableau de coordonnées représentant les positions des personnages dans la ville
+ * @param scoreJ1 Score du joueur 1
+ * @param scoreJ2 Score du joueur 2
+ */
+void trajectoire(struct Joueur *J1, struct Joueur *J2, int coorTete[],int scoreJ1,int scoreJ2)  {
 
   int tour = 1;
   nostdoutbuff();
   double x, y, t, v0, alpha;
   const float g = 10;
-  
-  int scoreJ1 = 0, scoreJ2 = 0;
 
   if (getch() == 't' && tour == 1) {
 
