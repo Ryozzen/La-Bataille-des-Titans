@@ -23,6 +23,14 @@ struct Joueur creeJoueur() {
   return joueur;
 }
 
+struct Build {
+  int height;
+  int width;
+};
+
+struct Build BuildList[10];
+
+
 /*Programme Principale*/
 
 int main() {
@@ -40,18 +48,26 @@ int main() {
   /* Fin de la creation des joueurs */
 
   /* Creation de la Ville */
+  int NBRBuild = 10;
+  int i;
+  for (i = 0; i < NBRBuild; i++) {
+    BuildList[i].height = 0;
+    BuildList[i].width = 0;
+  }
   char ville[45][80];
-  creeVille(ville);
+  creeVille(ville,BuildList);
   /* Fin de la creation de la Ville */
 
   /* Affichage */
-  Affichage(J1.x, J2.x, ville);
+  AffichageBat(J1.x, J2.x, ville,BuildList);
+  int coorTete[8];
+  AffichagePersos(BuildList, coorTete);
   /* Fin de l'affichage */
-
-  while (getch() != 'q') {
-    refresh();
-    gotoxy(1, 1);
-    printf("\nAppuyez sur q pour quitter\n");
+  
+  char fin = '\0';
+  while (fin != 'q') {
+    fin = getch();
+    trajectoire(&J1,&J2,coorTete);
   }
 
   resetcolors();
